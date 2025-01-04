@@ -1,2 +1,8 @@
 streamlit
 pandas
+Flask
+requests
+matplotlib
+ydata-profiling
+streamlit-pandas-profiling
+
