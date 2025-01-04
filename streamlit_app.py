@@ -1,151 +1,106 @@
+# Streamlit App Implementation
 import streamlit as st
 import pandas as pd
-import math
+import time
+import requests
+import matplotlib.pyplot as plt
+from ydata_profiling import ProfileReport
 from pathlib import Path
+from streamlit_pandas_profiling import st_profile_report
 
-# Set the title and favicon that appear in the Browser's tab bar.
-st.set_page_config(
-    page_title='GDP dashboard',
-    page_icon=':earth_americas:', # This is an emoji shortcode. Could be a URL too.
-)
+# Load default dataset for EDA
+#DEFAULT_DATASET_PATH = '/Users/sandeepkumar/NCI/AI/Moodle/Programming_For_AI/CA/CA-2-Final/FurnitureSalesForecast/notebook/cleaned_super_store_data.csv'
+DATA_FILENAME = Path(__file__).parent/'data/cleaned_super_store_data.csv'
+DEFAULT_DATASET_PATH = 'cleaned_super_store_data.csv'
+def load_default_dataset():
+    return pd.read_csv(DEFAULT_DATASET_PATH)
 
-# -----------------------------------------------------------------------------
-# Declare some useful functions.
+# Cache EDA report to avoid reloading
+@st.cache_resource
+def generate_eda_report(dataset):
+    return ProfileReport(dataset, title="EDA Report", explorative=True)
 
+# Cache initial forecast data to avoid reloading
 @st.cache_data
-def get_gdp_data():
-    """Grab GDP data from a CSV file.
+def fetch_default_forecast():
+    url = "http://127.0.0.1:5000/forecast"
+    response = requests.post(url, json={"periods": 12})
+    return pd.DataFrame(response.json())
 
-    This uses caching to avoid having to read the file every time. If we were
-    reading from an HTTP endpoint instead of a file, it's a good idea to set
-    a maximum age to the cache with the TTL argument: @st.cache_data(ttl='1d')
-    """
+# Cache generated forecast data
+@st.cache_data
+def fetch_forecast_data(periods):
+    url = "http://127.0.0.1:5000/forecast"
+    response = requests.post(url, json={"periods": periods})
+    return pd.DataFrame(response.json())
 
-    # Instead of a CSV on disk, you could read from an HTTP endpoint here too.
-    DATA_FILENAME = Path(__file__).parent/'data/gdp_data.csv'
-    raw_gdp_df = pd.read_csv(DATA_FILENAME)
+# Tabs for Forecasting (Home) and EDA
+tab1, tab2 = st.tabs(["Home", "EDA"])
 
-    MIN_YEAR = 1960
-    MAX_YEAR = 2022
+# Forecasting Tab (Home)
+with tab1:
+    st.header("Furniture Sales Forecasting Dashboard")
 
-    # The data above has columns like:
-    # - Country Name
-    # - Country Code
-    # - [Stuff I don't care about]
-    # - GDP for 1960
-    # - GDP for 1961
-    # - GDP for 1962
-    # - ...
-    # - GDP for 2022
-    #
-    # ...but I want this instead:
-    # - Country Name
-    # - Country Code
-    # - Year
-    # - GDP
-    #
-    # So let's pivot all those year-columns into two: Year and GDP
-    gdp_df = raw_gdp_df.melt(
-        ['Country Code'],
-        [str(x) for x in range(MIN_YEAR, MAX_YEAR + 1)],
-        'Year',
-        'GDP',
+    # Sidebar inputs
+    st.sidebar.header("Forecast Settings")
+    forecast_periods = st.sidebar.number_input("Forecast Periods (months)", min_value=1, max_value=36, value=12)
+
+    # Default forecast data
+    if "forecast_df" not in st.session_state:
+        st.session_state["forecast_df"] = fetch_default_forecast()
+
+    # Generate forecast button
+    if st.sidebar.button("Generate Forecast"):
+        st.session_state["forecast_df"] = fetch_forecast_data(forecast_periods)
+
+    # Use the cached forecast data
+    forecast_df = st.session_state["forecast_df"]
+
+    # Format date and round values
+    forecast_df['ds'] = pd.to_datetime(forecast_df['ds']).dt.date
+    forecast_df[['yhat', 'yhat_lower', 'yhat_upper']] = forecast_df[['yhat', 'yhat_lower', 'yhat_upper']].round(2)
+
+    # Plot the forecast
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(forecast_df['ds'], forecast_df['yhat'], label='Forecasted Sales', color='orange', linestyle='--')
+    ax.fill_between(
+        forecast_df['ds'],
+        forecast_df['yhat_lower'],
+        forecast_df['yhat_upper'],
+        color='orange',
+        alpha=0.2,
+        label='Confidence Interval'
     )
+    ax.set_xlabel("Date")
+    ax.set_ylabel("Sales")
+    ax.set_title("Monthly Furniture Sales Forecast")
+    ax.spines['top'].set_linewidth(2)
+    ax.spines['right'].set_linewidth(2)
+    ax.spines['bottom'].set_linewidth(2)
+    ax.spines['left'].set_linewidth(2)
+    ax.legend()
+    st.pyplot(fig)
 
-    # Convert years from string to integers
-    gdp_df['Year'] = pd.to_numeric(gdp_df['Year'])
+    # Display forecasted dates and sales
+    st.write("Forecasted Sales")
+    st.table(forecast_df[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].rename(columns={
+        'ds': 'Date', 
+        'yhat': 'Forecasted Sales',
+        'yhat_lower': 'Lower Bound',
+        'yhat_upper': 'Upper Bound'
+    }))
 
-    return gdp_df
+# EDA Tab
+with tab2:
+    st.header("Exploratory Data Analysis (EDA)")
 
-gdp_df = get_gdp_data()
+    # Load default dataset initially
+    dataset = load_default_dataset()
 
-# -----------------------------------------------------------------------------
-# Draw the actual page
+    time.sleep(2)
+    # Generate and cache the profiling report
+    profile = generate_eda_report(dataset)
 
-# Set the title that appears at the top of the page.
-'''
-# :earth_americas: GDP dashboard
+    # Display the profiling report
+    st_profile_report(profile)
 
-Browse GDP data from the [World Bank Open Data](https://data.worldbank.org/) website. As you'll
-notice, the data only goes to 2022 right now, and datapoints for certain years are often missing.
-But it's otherwise a great (and did I mention _free_?) source of data.
-'''
-
-# Add some spacing
-''
-''
-
-min_value = gdp_df['Year'].min()
-max_value = gdp_df['Year'].max()
-
-from_year, to_year = st.slider(
-    'Which years are you interested in?',
-    min_value=min_value,
-    max_value=max_value,
-    value=[min_value, max_value])
-
-countries = gdp_df['Country Code'].unique()
-
-if not len(countries):
-    st.warning("Select at least one country")
-
-selected_countries = st.multiselect(
-    'Which countries would you like to view?',
-    countries,
-    ['DEU', 'FRA', 'GBR', 'BRA', 'MEX', 'JPN'])
-
-''
-''
-''
-
-# Filter the data
-filtered_gdp_df = gdp_df[
-    (gdp_df['Country Code'].isin(selected_countries))
-    & (gdp_df['Year'] <= to_year)
-    & (from_year <= gdp_df['Year'])
-]
-
-st.header('GDP over time', divider='gray')
-
-''
-
-st.line_chart(
-    filtered_gdp_df,
-    x='Year',
-    y='GDP',
-    color='Country Code',
-)
-
-''
-''
-
-
-first_year = gdp_df[gdp_df['Year'] == from_year]
-last_year = gdp_df[gdp_df['Year'] == to_year]
-
-st.header(f'GDP in {to_year}', divider='gray')
-
-''
-
-cols = st.columns(4)
-
-for i, country in enumerate(selected_countries):
-    col = cols[i % len(cols)]
-
-    with col:
-        first_gdp = first_year[first_year['Country Code'] == country]['GDP'].iat[0] / 1000000000
-        last_gdp = last_year[last_year['Country Code'] == country]['GDP'].iat[0] / 1000000000
-
-        if math.isnan(first_gdp):
-            growth = 'n/a'
-            delta_color = 'off'
-        else:
-            growth = f'{last_gdp / first_gdp:,.2f}x'
-            delta_color = 'normal'
-
-        st.metric(
-            label=f'{country} GDP',
-            value=f'{last_gdp:,.0f}B',
-            delta=growth,
-            delta_color=delta_color
-        )
