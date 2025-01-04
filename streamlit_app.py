@@ -10,7 +10,7 @@ from streamlit_pandas_profiling import st_profile_report
 
 # Load default dataset for EDA
 #DEFAULT_DATASET_PATH = '/Users/sandeepkumar/NCI/AI/Moodle/Programming_For_AI/CA/CA-2-Final/FurnitureSalesForecast/notebook/cleaned_super_store_data.csv'
-DATA_FILENAME = Path(__file__).parent/'data/cleaned_super_store_data.csv'
+DATA_FILENAME = Path(__file__).parent
 DEFAULT_DATASET_PATH = 'cleaned_super_store_data.csv'
 def load_default_dataset():
     return pd.read_csv(DEFAULT_DATASET_PATH)
