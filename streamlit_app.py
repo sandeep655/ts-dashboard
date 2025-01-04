@@ -30,7 +30,7 @@ def fetch_default_forecast():
 # Cache generated forecast data
 @st.cache_data
 def fetch_forecast_data(periods):
-    url = "http://127.0.0.1:5000/forecast"
+    url = "https://time-series-forcasting-0coo.onrender.com/forecast"
     response = requests.post(url, json={"periods": periods})
     return pd.DataFrame(response.json())
 
