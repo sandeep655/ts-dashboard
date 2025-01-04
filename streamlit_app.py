@@ -23,7 +23,7 @@ def generate_eda_report(dataset):
 # Cache initial forecast data to avoid reloading
 @st.cache_data
 def fetch_default_forecast():
-    url = "http://127.0.0.1:5000/forecast"
+    url = "https://time-series-forcasting-0coo.onrender.com/forecast"
     response = requests.post(url, json={"periods": 12})
     return pd.DataFrame(response.json())
 
