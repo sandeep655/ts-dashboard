@@ -1,4 +1,4 @@
-# :earth_americas: Furniture Sales Forecasting Dashboard
+# 🪑📈 Furniture Sales Forecasting Dashboard
 
 A simple Streamlit app showing Furniture Sales Forecasting using Prophet Model
 
