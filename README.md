@@ -4,8 +4,6 @@ A simple Streamlit app showing Furniture Sales Forecasting using Prophet Model
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ts-dashboard-ft317gdnpk.streamlit.app/)
 
-# Furniture Sales Forecasting
-
 ## Project Overview
 The Furniture Sales Forecasting project is designed to predict future sales using time series analysis techniques. This project implements ARIMA and Prophet models for forecasting, integrates a Flask API for predictions, and provides an interactive Streamlit dashboard for visualization and exploratory data analysis (EDA).
 
