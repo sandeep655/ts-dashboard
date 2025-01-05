@@ -44,3 +44,31 @@ FurnitureSalesForecast/
 ├── requirements.txt       # Dependencies
 ├── cleaned_super_store_data.csv  # Default dataset for EDA
 ├── Project Journal.docx   # Detailed project documentation
+
+
+Instructions
+1. Setup Environment
+Install dependencies:
+bash
+Copy code
+pip install -r requirements.txt
+2. Run Flask API
+Start the API server:
+bash
+Copy code
+python api.py
+The API runs on: http://127.0.0.1:5000/forecast.
+3. Run Streamlit Dashboard
+Launch the dashboard:
+bash
+Copy code
+streamlit run streamlit_app.py
+Interact with the Home and EDA tabs for forecasts and data analysis.
+4. Test the API
+Use tools like Postman to test the /forecast endpoint.
+Highlights
+The Streamlit app dynamically adjusts forecasts based on user input.
+EDA is cached to improve performance and reduce reloading time.
+The deployed model offers accurate forecasts with confidence intervals.
+Deployment Links
+Streamlit Dashboard: Furniture Sales Forecasting Dashboard
