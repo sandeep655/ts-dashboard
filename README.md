@@ -4,24 +4,6 @@ A simple Streamlit app showing Furniture Sales Forecasting using Prophet Model
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ts-dashboard-ft317gdnpk.streamlit.app/)
 
-### How to run it on your own machine
-
-1. Clone this repository to your local machine:
-    ```bash
-    $ git clone https://github.com/sandeep655/ts-dashboard/tree/main
-    ```
-2. Install the requirements
-
-   ```
-   $ pip install -r requirements.txt
-   ```
-
-3. Run the app
-
-   ```
-   $ streamlit run streamlit_app.py
-   ```
-
 # Furniture Sales Forecasting
 
 ## Project Overview
@@ -54,9 +36,22 @@ FurnitureSalesForecast/
 ### Instructions
 
 #### 1. Setup Environment
+- Clone this repository to your local machine:
+    ```bash
+    $ git clone https://github.com/sandeep655/ts-dashboard/tree/main
+    ```
+- Create a new Conda Environment:
+    ```bash
+    $ conda create --name furniture-forecast python=3.9 -y
+    ```
+- Activate the environment:
+    ```bash
+    conda activate furniture-forecast
+    ```
 - Install dependencies:
-  ```bash
-  pip install -r requirements.txt
+    ```bash
+    pip install -r requirements.txt
+
 
 #### 2. Run Flask API
 - Start the API server:
@@ -65,9 +60,9 @@ FurnitureSalesForecast/
 - The API runs on: ```http://127.0.0.1:5000/forecast```
 #### 3. Run Streamlit Dashboard
 - Launch the dashboard:
-```bash
-streamlit run streamlit_app.py
-```
+    ```bash
+    streamlit run streamlit_app.py
+    ```
 - Interact with the Home and EDA tabs for forecasts and data analysis.
 #### 4. Test the API
 - Use tools like Postman to test the ```/forecast``` endpoint.
