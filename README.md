@@ -46,6 +46,7 @@ FurnitureSalesForecast/
 ├── Project Journal.docx   # Detailed project documentation
 
 
+### How to run it on your own machine
 Instructions
 1. Setup Environment
 Install dependencies:
