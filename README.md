@@ -44,22 +44,22 @@ FurnitureSalesForecast/
     ```
 - Activate the environment:
     ```bash
-    conda activate furniture-forecast
+    $ conda activate furniture-forecast
     ```
 - Install dependencies:
     ```bash
-    pip install -r requirements.txt
+    $ pip install -r requirements.txt
 
 
 #### 2. Run Flask API
 - Start the API server:
    ```bash
-   python api.py
+   $ python api.py
 - The API runs on: ```http://127.0.0.1:5000/forecast```
 #### 3. Run Streamlit Dashboard
 - Launch the dashboard:
     ```bash
-    streamlit run streamlit_app.py
+    $ streamlit run streamlit_app.py
     ```
 - Interact with the Home and EDA tabs for forecasts and data analysis.
 #### 4. Test the API
