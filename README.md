@@ -46,7 +46,7 @@ FurnitureSalesForecast/
 ├── api.py                 # Flask API code
 ├── prophet_model.pkl      # Trained Prophet model
 ├── requirements.txt       # Dependencies
-├── cleaned_super_store_data.csv  # Default dataset for EDA
+├── cleaned_super_store_data.csv  # dataset for EDA
 ├── Project Journal.docx   # Detailed project documentation
 ```
 ## How to Run it on Your Own Machine
