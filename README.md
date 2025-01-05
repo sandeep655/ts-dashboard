@@ -8,7 +8,7 @@ A simple Streamlit app showing Furniture Sales Forecasting using Prophet Model
 
 1. Clone this repository to your local machine:
     ```bash
-    $ git clone https://github.com/sandeep655/ts-dashboard
+    $ git clone https://github.com/sandeep655/ts-dashboard/tree/main
     ```
 2. Install the requirements
 
