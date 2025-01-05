@@ -71,4 +71,4 @@ The Streamlit app dynamically adjusts forecasts based on user input.
 EDA is cached to improve performance and reduce reloading time.
 The deployed model offers accurate forecasts with confidence intervals.
 Deployment Links
-Streamlit Dashboard: Furniture Sales Forecasting Dashboard
+[Furniture Sales Forecasting Streamlit Dashboard](https://ts-dashboard-ft317gdnpk.streamlit.app/)
