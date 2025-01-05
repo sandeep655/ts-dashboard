@@ -1,6 +1,6 @@
-# :earth_americas: GDP dashboard template
+# :earth_americas: Furniture Sales Forecasting Dashboard
 
-A simple Streamlit app showing the GDP of different countries in the world.
+A simple Streamlit app showing Furniture Sales Forecasting using Prophet Model
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ts-dashboard-ft317gdnpk.streamlit.app/)
 
