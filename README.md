@@ -58,7 +58,7 @@ FurnitureSalesForecast/
 - Start the API server:
    ```bash
    python api.py
-- The API runs on: http://127.0.0.1:5000/forecast.
+- The API runs on: ```http://127.0.0.1:5000/forecast```
 #### 3. Run Streamlit Dashboard
 - Launch the dashboard:
 ```bash
@@ -66,7 +66,7 @@ streamlit run streamlit_app.py
 ```
 - Interact with the Home and EDA tabs for forecasts and data analysis.
 #### 4. Test the API
-- Use tools like Postman to test the /forecast endpoint.
+- Use tools like Postman to test the ```/forecast``` endpoint.
 #### Highlights
 - The Streamlit app dynamically adjusts forecasts based on user input.
 - EDA is cached to improve performance and reduce reloading time.
