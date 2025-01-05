@@ -6,18 +6,17 @@ A simple Streamlit app showing Furniture Sales Forecasting using Prophet Model
 
 ### How to run it on your own machine
 
-### Step 1: Clone the Repository
-- Clone this repository to your local machine:
-  ```bash
-  git clone https://github.com/your-repo/furniture-sales-forecast.git
-
-1. Install the requirements
+1. Clone this repository to your local machine:
+    ```bash
+    $ git clone https://github.com/sandeep655/ts-dashboard
+    ```
+2. Install the requirements
 
    ```
    $ pip install -r requirements.txt
    ```
 
-2. Run the app
+3. Run the app
 
    ```
    $ streamlit run streamlit_app.py
